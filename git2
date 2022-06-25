@@ -1,0 +1,295 @@
+1. Try it out: Cherry-Pick
+
+
+cd test/
+
+ls
+
+cat greetings.sh
+
+git checkout username
+
+git log --pretty=oneline
+
+git checkout master
+
+git cherry-pick e0b8133a455874c673c3c41e3387b12b9560dd32
+
+------------------------------------------------------------------------
+
+2. GIT STASH
+
+
+cd file/
+
+vi calc.py
+
+
+
+Press i for INSERT then type below code
+
+
+
+sum = float(num1) + float(num2)
+
++diff = float(num1)-float(num2)
+
+=mul = float(num1) * float(num2)
+
++div = float(num1) / float(num2)
+
+
+
+Esc -> :wq -> Enter
+
+
+
+git stash (saved working directory)
+
+vi calc.py
+
+
+
+num1 = input('Enter first number: ')
+
+num2 = input('Enter second numbr: ')
+
+
+
+git add .
+
+git commit -m 'STEP 4' (1 file changed)
+
+git push origin master
+
+git tag -a v1.0 -m "first"
+
+git stash list
+
+vi calc.py
+
+
+
+[Press i]
+
+print('The sum of {0} and {1} is {2}'.format(num1, num2, sum))
+
++print('The difference of {0} and {1} is {2}'.format(num1, num2, diff))
+
+
+ 
++print('The product of {0} and {1} is {2}'.format(num1, num2, mul))
+
+
+ 
++print('The division of {0} and {1} is {2}'.format(num1, num2, div))
+
+
+
+[Press ESC and type :wq]
+
+git add .
+
+git commit -m "step 7"
+
+git tag -a v2.0 -m "second"
+
+git push origin master
+
+------------------------------------------------------------------------
+
+3. GIT BLAME
+
+
+cd local/
+
+ls
+
+cat newfile.py
+
+vi newfile.py
+
+
+
+print('Hello World!!!')
+
+This is the second line!
+
+This is the third line!
+
+a = 10+20
+
+print(a)
+
+
+
+git add .
+
+git commit -m 'added two lines as step 2"
+
+git push origin master
+
+git blame newfile.py
+
+
+
+touch output.txt
+
+vi output.txt
+
+
+
+This is the second line! (press i and type the line later ESC + :wq]
+
+
+------------------------------------------------------------------------
+
+4. GIT Submodule 
+
+
+cd file/
+
+mkdir vendor
+
+cd vendor/
+
+git submodule add /projects/challenge/.assessment/2
+
+git status
+
+git add .
+
+git commit -m "on step2"
+
+git push origin master
+
+cd 2
+
+vi dependency1.py
+
+
+
+[press i and give space then ESC + :wq]
+
+
+
+git add .
+
+git commit -m "new line added"
+
+git submodule status
+
+cd ..
+
+git status
+
+git log --oneline
+
+git add .
+
+git commit -m "complete step3"
+
+git push origin master
+
+
+------------------------------------------------------------------------
+
+5. GIT REFLOG
+
+
+cd file/
+
+ls
+
+touch file4.py
+
+vi file4.py [:wq and press enter]
+
+git add .
+
+git commit -m "New file added"
+
+git push origin master
+
+git reflog
+
+git reset --hard Head~1
+
+git reflog
+
+
+
+git cherry-pick a297431 (commit id of New file added)
+
+git reset --hard
+
+
+------------------------------------------------------------------------
+
+6. GIT HOOKS
+
+cd test/
+
+cd .git/hooks/
+
+touch post-commit
+
+vi post-commit
+
+
+
+git push origin master [ESC + :wq enter]
+
+
+
+chmod +x post-commit
+
+cd ..
+
+cd ..
+
+touch new_file.txt
+
+git add .
+
+git commit -a -m "commitMessage"
+
+
+------------------------------------------------------------------------
+
+7. GIT BISECT 
+
+
+cd local/
+
+ls
+
+cat newfile.py
+
+git log --oneline
+
+git bisect start
+
+git bisect good 72c7e9d (perform addition)
+
+git bisect bad
+
+cat newfile.py
+
+git bisect bad
+
+cat newfile.py
+
+git bisect good (when you see b = 20)
+
+git bisect reset
+
+git revert 317f20..... (commit id above you will see) [Ignore Errors]
+
+git commit -u newfile.py ( Nothing just type :wq and Enter]
+
+git add .
+
+git commit -m "revert"
+
+git push origin master
