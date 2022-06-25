@@ -1,0 +1,22 @@
+minikube -p minikube docker-env
+eval $(minikube docker-env)
+
+
+1. kubectl run firstapp --image:gcr.   
+   kubectl get pod firstapp
+   
+2. kubectl expose pod firstapp --type=NodePort --port=8080
+   kubectl get svc firstapp
+   
+3. kubectl create deployment nginx --image=nginx --dry-run=client -o yaml>deployment.yaml
+   kubectl create -f deployment.yaml
+   kubectl scale deployment nginx --replicas=3
+   kubectl get deployment nginx
+   
+4. kubectl create service nodeport nginx-svc --tcp=8080:80 --node-port=30080 --dry-run=client -o yaml>service.yaml
+   kubectl create -f service.yaml
+   kubectl get service nginx-svc
+   
+5. kubectl get pods
+   kubectl exec -it nginx /bin/bash
+   echo 'Welcome to fresco nginx pod'>/usr/share/nginx/html
