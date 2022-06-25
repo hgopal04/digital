@@ -112,6 +112,22 @@ You would see Chennai as output in the first three executions. It is because the
 
 besilbal - Ansible choral | 4 | Include
 
+------------------------------
+
+- name: Install nginx
+  apt: name=nginx state=latest
+  tags: nginx
+- name: restart nginx
+  service:
+    name: nginx
+    state: started
+- name: Install PostgreSQL
+  apt: name=postgresql state=latest
+  tags: PostgreSQL
+- name: Start PostgreSQL
+  service:
+    name: postgresql
+    state: started
 
 
 
