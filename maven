@@ -1,0 +1,349 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.fresco.play</groupId>
+  <artifactId>first-maven-project</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>first-maven-project</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+   <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
+
+
+Following is a sample dependency element junit added in pom.xml.
+
+<dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
+</dependency>
+
+
+Let us search for csv file maven dependency in search.maven.org. You could click on the needed version to get the dependency information as shown below. The same can be copied to the dependencies element in pom.xml.
+
+ <dependency>
+   <groupId>com.opencsv</groupId>
+   <artifactId>opencsv</artifactId>
+   <version>3.9</version>
+ </dependency>
+ 
+ 
+ 
+ External Dependencies
+
+<dependency>
+  <groupId>mydependency</groupId>
+  <artifactId>mydependency</artifactId>
+  <scope>system</scope>
+  <version>1.0</version>
+  <systemPath>${basedir}\war\WEB-INF\lib\frescoplay-gems.jar</systemPath>
+</dependency> 
+
+
+Sample Dependency View
+
+<dependency>
+    <groupId>junit</groupId>
+     <artifactId>junit</artifactId>
+     <version>(3.8,]</version>
+     <scope>test</scope>
+</dependency>
+
+
+
+
+Dependencies Version in Between Range
+
+<dependency>
+       <groupId>junit</groupId>
+   	<artifactId>junit</artifactId>
+       <version>[3.8,4.0)</version>
+       <scope>test</scope>
+</dependency>
+
+Setting Environment Variable
+Sample plugins with an environment variable:
+
+<build>
+      <plugins>
+  <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+      <version>1.1</version>
+      <executions>
+           <execution>
+               <phase>validate</phase>
+                 <goals>
+                       <goal>run</goal>
+                </goals>
+        <configuration>
+         <tasks>
+           <echo>Displaying environment variables</echo>
+                   <echo>[JAVA PATH] ${env.JAVA_HOME}</echo>
+                   <echo>[M2_HOME] ${env.M2_HOME}</echo>
+         </tasks>
+     </configuration>
+    </execution>
+       </executions>
+  </plugin>
+ </plugins>
+    </build>
+    
+    
+    ample pom file with maven-compile and exec-maven plugin after <Dependencies></Dependencies> tag:
+<build>
+  <sourceDirectory>src</sourceDirectory>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.3</version>
+            <configuration>
+              <source>1.8</source>
+              <target>1.8</target>
+             </configuration>
+        </plugin>
+   <plugin>
+   <groupId>org.codehaus.mojo</groupId>
+      <artifactId>exec-maven-plugin</artifactId>
+         <version>1.2.1</version>
+            <configuration>
+              <mainClass>com.fresco.play.App</mainClass>
+            </configuration>
+     </plugin>
+   </plugins>
+</build>
+
+
+Single Command to Create WAR Project
+Create War file by passing all the dependencies value together.
+
+Enter mvn archetype:generate -DgroupId=com.fresco.play -DartifactId=First-WebApp -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false in terminal.
+
+It will generate war file.
+
+Verify the war file:
+
+It should have pom.xml and src file.
+
+src file should have main file with resources and webapp.
+
+Create the war file:
+
+Change directory with cd First-WebApp
+
+Try yourself using war:war goal method and package method.
+
+
+
+Plugin in POM.xml
+Following is the sample code for compiling plugin in pom.xml used in one of the previous learning cards:
+
+<plugins>
+     <plugin>
+       <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.3</version>
+             <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+            </configuration>
+         </plugin>
+  </plugins>
+You could recollect the usage of exec-maven-plugin during source code execution.
+
+
+
+Junit Surefire Plugin
+We will learn about JUnit Surefire plugin usage. To start with, you need to add JUnit as the dependency in your project.
+
+<dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <version>4.12</version>
+         <scope>test</scope>
+  </dependency>
+  
+  
+  
+  
+  
+  To manually force a serial or parallel execution of tests, following code can be included in pom.xml:
+
+<plugin>
+   <groupId>org.apache.maven.plugins</groupId>
+   <artifactId>maven-surefire-plugin</artifactId>
+   <version>2.20</version>
+    <dependencies>
+     <dependency>
+       <groupId>org.apache.maven.surefire</groupId>
+        <artifactId>surefire-junit47</artifactId>
+        <version>2.20</version>
+     </dependency>
+   </dependencies>
+</plugin>
+
+
+
+
+Parallel Test Execution
+Junit 4.7 onwards, you can perform parallel execution of tests. This can be done by passing parallel parameter and change threadCount attribute.
+
+Sample plugin for parallel execution:
+
+ <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-surefire-plugin</artifactId>
+       <version>2.20</version>
+      <configuration>
+            <parallel>methods</parallel>
+            <threadCount>10</threadCount>
+     </configuration>
+  </plugin>
+  
+  
+  
+  
+  Skipping a Test
+To skip the test execution, use command mvn install -DskipTests. The same can be achieved by using the plugin and set the property of skipTests as True.
+
+Sample dependency:
+
+ <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.20</version>
+          <configuration>
+           <skipTests>true</skipTests>
+          </configuration>
+  </plugin>
+  
+  
+  
+  
+  Skipping Compilation of a Test
+To skip the compilation of the test, use **`mvn install -Dmaven.test.skip=true
+
+Skipping by Default`**.
+
+Following plugin code helps to achieve the same:
+
+<plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-surefire-plugin</artifactId>
+           <version>2.20</version>
+           <configuration>
+             <skipTests>${skipTests}</skipTests>
+           </configuration>
+</plugin>
+
+
+
+
+
+JENKINS WITH MAVEN
+
+Configure Jenkins with Git
+Now if we have our code in GitHub repository and want to have it in Jenkins for execution. For this:
+
+Click Manage Jenkins link from the Jenkins GUI.
+
+Click manage plugins, then select the available tab by searching for GitHub from the search box.
+
+Select the GitHub plugins for installation and click download button.
+
+Select Configure System from the Manage Jenkins page.
+
+Verify that JDK version and JAVA_HOME path is set.
+
+In Git installation, set Path to git executable.
+
+Set Maven Home path in the plugins.
+
+Click Save.
+
+
+
+Set Git Repository in Jenkins
+We need to use Git repository in the Jenkins.
+
+Select New Item from the Jenkins GUI.
+
+Enter the Item name as FrescoPlayTest(Name can be of your choice).
+
+Go to Maven project and select the maven project radio button.
+
+Click OK button to confirm maven project selection.
+
+Select Git from Source Code Management.
+
+Set the Repository URL in this box.
+
+Click Advance button twice, and you will get a checkbox option.
+
+Select Skip internal tag. (If it is not checked, Jenkins will create separate tags in the repository.)
+
+Scroll down to Build section, select Invoke top-level, then Maven targets from the drop-down list.
+
+Set Goal as compile. Now we have to set POM path.
+
+Go to Git and find your folder where POM.xml file exists. (e.g. App/pom.xml)
+
+Click Save button.
+
+
+
+
+Integration JMeter Script with Maven
+Take JMeter script and build it with Maven. We need JMeter Maven plugin.
+
+Create a Maven project for JMeter.
+
+Add JMeter Maven plugin in <build> element of pom.xml file.
+
+<build>
+  <plugins>
+     <plugin>
+       <groupId>com.lazerycode.jmeter</groupId>
+       <artifactId>jmeter-maven-plugin</artifactId>
+       <version>2.1.0</version>
+          <executions>
+             <execution>
+                 <id>jmeter-tests</id>
+                  <goals>
+                    <goal>jmeter</goal>
+                 </goals>
+              </execution>
+          </executions>
+    </plugin>
+ </plugins>
+</build>
+
+
+Include View - Result Plugins
+To get a result in the form of a graph, use JMeter Graph Maven Plugins.
+
+Add this plugin in same pom.xml after JMeter plugins details.
+
+<plugin>
+    <groupId>de.codecentric</groupId>
+    <artifactId>jmeter-graph-maven-plugin</artifactId>
+    <version>0.1.0</version>
+   <configuration>
+	<inputFile>${project.build.directory}/jmeter/results/20170319-BlazeDemo Home Page.jtl</inputFile>	
+	  <graphs>
+		  <graph>
+		      <pluginType>ResponseTimesOverTime</pluginType>
+		      <width>800</width>
+		      <height>600</height>
+		      <outputFile>${project.build.directory}/jmeter/results/BlazeDemo Request.png</outputFile>
+		 </graph>
+        </graphs>
+     </configuration>
+</plugin>
