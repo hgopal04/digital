@@ -1,0 +1,29 @@
+
+
+1. docker version
+2. docker ps -a
+3. docker pull tomcat:latest
+4. Docker images
+5. Docker history tomcat
+6. Docker rmi tomcat
+7. Docker run —name nginxservice nginx:latest
+8. Docker pull busy box:1.24
+9. Docker search ubuntu | head -20
+10. Docker ps
+11. Docker inspect —format=‘{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}’  nginxservice
+12. Docker stats nginxservice
+13. Docker pause nginxservice
+14. Docker start nginxservice
+15. Docker kill nginxservice
+16. Docker start nginxservice
+17. Docker stop nginxservice
+18. Docker ps -a
+19. Docker export nginxservice>test.tar
+20. Docker rm nginxservice
+21. Docker container prune
+22. Docker import test.tar
+
+
+
+
+
