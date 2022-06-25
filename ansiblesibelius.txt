@@ -1,0 +1,150 @@
+Ansible Sibelius Module Explained
+---
+  - name: Stop and Start ssh
+    service:
+      name: ssh
+      state: stopped
+  - name: Stop and Start ssh
+    service:
+      name: ssh
+      state: started
+ansible-playbook -i localhost mainplaybook.yml
+ansible loops- ansible siblius -working
+loops
+type the below in the defaults/mail.yml
+---
+# defaults file for copy-files
+mongo_packages:
+- apache2
+- sqlite3
+- git
+type the below in tasks/main.yml
+---
+- name: Install mongodb
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ mongo_packages }}"
+Ansible Sibelius When Clause
+#Create the directory using the adhoc command
+step1 : run this in terminal
+ansible localhost -m ansible.builtin.file -a "dest=/home/user/test mode=755
+state=directory"
+step :2 create a file named simplefile.txt
+touch simplefile.txt
+click File->new file
+name the file as  simplefile.txt
+step :3 main.yml
+---
+  - name: check destination
+    stat:
+     path: /home/user/test/simplefile.txt
+    register: p
+  - name:  copy file if not exists
+    command: mv /projects/challenge/simplefile.txt /home/user/test
+    when: p.stat.exists == False
+      Ansible Sibelius Handon
+      Ansible sibelius - Try It Out-Write A Playbook
+  - name: Install nginx
+    apt:
+      name: nginx
+      state: latest
+  - name: Start NGiNX
+    service:
+      name: nginx
+      state: started
+  - name: Install PostgreSQL
+    apt:
+      name: postgresql
+      state: latest
+  - name: Start PostgreSQL
+    service:
+      name: postgresql
+      state: started
+        then run
+        ansible-playbook -i myhosts test.yml
+        ansible-playbook -i myhosts mainplaybook.yml
+        ansible-playbook -i myhosts master_playbook.yml
+        
+        
+  OR      
+        
+  Module Explained
+  
+Main.yml file
+
+ - hosts: localhost
+  become: yes
+  tasks:
+  - name: Stop ssh
+    service:
+      name: ssh
+      state: stopped
+  - name: Start ssh
+    service:
+      name: ssh
+      state: started
+Command:
+ansible-playbook main.yml 
+-------------------------------------------------------------------------------------
+
+Ansible sibelius - Try It Out-conditional (when clause)
+
+> cd /projects/challenge > touch simplefile.txt main.yml file
+ > ansible localhost -i /etc/ansible/hosts -m command -a "mkdir
+ /home/user/test"
+ 
+- name: move file from this to localhost
+  hosts: localhost
+  tasks:
+    - name: Task name
+      stat:
+        path: /home/user/test/simplefile.txt
+      register: file_date
+    - name: copy a file, but do not copy if the file already exists
+      command: mv /projects/challenge/simplefile.txt /home/user/test/
+creates=simplefile.txt
+      when: not file_date.stat.exists
+
+-------------------------------------------------------------------------------------
+
+
+Try-it-Out - Loops
+
+main.yml file
+ ---
+- name: installation of open source softwares
+  hosts: localhost
+  become: true
+  tasks:
+  - name: install apache sqlite and git tool
+    apt:
+      pkg: '{{ item }}'
+      state: latest
+      update_cache: true
+    with_items:
+      - apache2
+      - sqlite3
+      - git
+ > ansible-playbook main.yml
+
+
+-------------------------------------------------------------------------------------
+
+
+Try It Out - Write A Playbook
+main.yml file
+  - name: installation of open source softwares
+  hosts: localhost
+  become: true
+  tasks:
+  - name: install nginx and postgresql
+    apt:
+pkg:
+- nginx
+        - postgresql
+      state: latest
+ 
+update_cache: true
+> cd /projects/challenge/fresco_nginx/tasks
+> ansible-playbook main.yml
