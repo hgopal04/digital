@@ -1,0 +1,319 @@
+1. Committing Files
+
+
+
+
+
+git init
+
+ls
+
+cd test
+
+ls
+
+git add helloworld.js
+
+git commit -m "Initial Hello World Commit"
+
+echo '*.tmp' > .gitignore
+
+git add .gitignore
+
+git commit -m "gitignore file"
+
+---------------------------------------------------
+
+2. committing changes
+
+
+git status
+
+git diff
+
+ls
+
+cd test
+
+ls
+
+git add committed.js
+
+git diff --staged
+
+git log --pretty=format:"%h %an %ar - %s"
+
+git show
+
+
+
+(In case if you failed at commits check on master)
+
+git commit -m 'hello' (Use this after git diff command)
+
+
+
+---------------------------------------------------
+
+3. Working on Remote 
+
+
+ls
+
+cd test
+
+git init
+
+git remote add origin ../.assessment/remote
+
+git remote -v
+
+touch abc.txt
+
+git add abc.txt
+
+git commit -m "new file abc.txt"
+
+git push origin master
+
+cd ..
+
+bash .clone_sh
+
+ls
+
+cd test
+
+git pull origin master
+
+cd ..
+
+ls
+
+cd clone
+
+git clone https://github.com/frescoplaylab/hello-world.git
+
+
+
+---------------------------------------------------
+
+4. Try it Out - Branch and Merge Conflicts
+
+
+cd test
+
+git init
+
+git checkout -b feature1
+
+git checkout -b feature2
+
+git checkout feature1
+
+vi hello.py
+
+(Press i then make print('Hello people') then esc and type :wq)
+
+git add hello.py
+
+git commit -m 'changed from feature1'
+
+git checkout master
+
+git merge feature1
+
+git checkout feature2
+
+vi hello.py
+
+(print('keep playing'))
+
+git add hello.py
+
+git commit -m 'changed from feature2'
+
+git checkout master
+
+git merge feature2
+
+vi hello.py
+
+(print('keep playing'))
+
+git add hello.py
+
+git commit -m 'resolved conflicts'
+
+git branch -d feature1
+
+git branch -d feature2
+
+cd ../quotes/
+
+vi Quotes.txt
+
+(My life is my message.Mahatma Gandhi.)
+
+git add Quotes.txt
+
+git commit -m 'added gandhi quote'
+
+git pull origin master --allow-unrelated-histories
+
+git checkout --ours Quotes.txt
+
+git add Quotes.txt
+
+git commit -m 'resolved conflicts'
+
+git push origin master
+
+vi Quotes.txt
+
+(My life is my message. Mahatma Gandhi. Adding conflicts )
+
+git add Quotes.txt
+
+git commit -m 'final commit'
+
+git push origin master
+
+
+---------------------------------------------------
+
+5. Rebase Conflict
+
+
+git clone .assessment/remote
+
+cd remote
+
+vi check_number.py
+
+(Press i then 
+
+num = 2
+
+if (num % 2) == 0:
+
+	print("{0} is Even".format(num))
+
+else: print('{0} is Odd'.format(num))
+
+
+
+Press esc then :wq)
+
+git add check_number.py
+
+git commit -m 'modified'
+
+cd ..
+
+bash .fetch_sh
+
+cd remote
+
+git diff master origin/master
+
+(:wq)
+
+git pull --rebase origin master
+
+vi check_number.py
+
+(
+
+num = int(input("Enter a number: "))
+
+if (num % 2) == 0:
+
+	print("{0} is Even".format(num))
+
+else: print('{0} is Odd'.format(num))
+
+)
+
+git add check_number.py
+
+git rebase --continue
+
+git push origin master
+
+
+---------------------------------------------------
+
+6. Undo Changes
+
+cd test
+
+vi hello.py
+
+(Press i then make the file
+
+print("Hello World")
+
+(Then press esc and type :wq)
+
+git add hello.py
+
+git commit --amend
+
+(type :wq)
+
+vi hello.py
+
+(
+
+print("Hello world")
+
+Adding but to file
+
+)
+
+git checkout --hello.py
+
+vi hello.py
+
+(
+
+print("Hello world")
+
+Adding bug to file
+
+)
+
+git add hello.py
+
+git reset hello.py
+
+git add hello.py
+
+git reset --hard
+
+vi hello.py
+
+(
+
+print("Hello world")
+
+print("Added bug to script")
+
+)
+
+git add hello.py
+
+git commit -m 'changed hello.py'
+
+git reset HEAD~1
+
+git commit -am "commit to revert"
+
+git revert HEAD
+
+git revert HEAD...HEAD~3 --no-edit
+
+
+
+
