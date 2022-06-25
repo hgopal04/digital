@@ -1,0 +1,117 @@
+Write Playbook
+You can get a list of all the variables associated with the current host with the help of hostvars and inventory_hostname variables.
+
+Create a Playbook test.yml and write steps as shown below:
+
+---
+- name: built-in variables
+  hosts: all
+  tasks:
+    - debug: var=hostvars[inventory_hostname]
+
+Step 2:
+
+Execute Playbook
+Now execute the playbook and observe the output: ansible-playbook -i myhosts test.yml
+
+inventory_hostname tells the name of the current host
+hostvars stores the list of all the variables and fact of the host (defined by inventory_hostname)
+in short, store all the variables of host01 machine and display it using debug module
+
+
+besilbal - Ansible Choral | 2 | Try It Out-Registered Variable
+
+
+test.yml
+Lets create a file touch afile.txt, prior to creating tasks
+
+Create a playbook test.yml to
+
+copy afile.txt from your control machine to host machine at /home/ubuntu/ location as afile_copy.txt and
+debug the above task to display the returned value
+Execute your playbook (test.yml) and observe the output.
+
+test.yml
+=========
+- name: Play1
+  hosts: all
+  sudo: yes
+  tasks:
+  - name: Copy a file
+    copy: src=afile.txt dest=/home/ubuntu/afile_copy.txt
+
+Execute the playbook
+=======================
+ansible-playbook -i myhosts test.yml
+
+
+besilbal - Ansible choral | 3 | Special Tags
+
+Write the Playbook
+Create a Playbook tag.yml and write steps as shown below:
+
+---
+- name: Special Tags
+  hosts: all
+  sudo: yes
+  tasks:
+    - name: location 1
+      debug: msg="california"      
+
+    - name: location 2
+      debug: msg="mumbai"
+      tags: 
+        - tag1
+
+    - name: location 3
+      debug: msg="bangalore"
+      tags:
+        - tag2
+
+    - name: location 4
+      debug: msg="chennai"      
+      tags: 
+---
+- name: Special Tags
+  hosts: all
+  sudo: yes
+  tasks:
+    - name: location 1
+      debug: msg="california"      
+
+    - name: location 2
+      debug: msg="mumbai"
+      tags: 
+        - tag1
+
+    - name: location 3
+      debug: msg="bangalore"
+      tags:
+        - tag2
+
+    - name: location 4
+      debug: msg="chennai"      
+      tags: 
+        - always
+
+Execute Playbook Using Special Tags
+Execute each of the following command and observe the difference in output:
+
+ansible-playbook -i myhosts tag.yml --tags "tag1"
+
+ansible-playbook -i myhosts tag.yml --tags "tagged"
+
+ansible-playbook -i myhosts tag.yml --tags "untagged"
+
+ansible-playbook -i myhosts tag.yml --tags "untagged" --skip-tags "always"
+
+Did you observe??
+You would see Chennai as output in the first three executions. It is because the task is tagged as always.
+
+
+
+besilbal - Ansible choral | 4 | Include
+
+
+
+
