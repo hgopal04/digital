@@ -28,8 +28,10 @@ spec:
 
 
 
-
 1. kubectl create configmap fresco-config --from-literal SERVER_URL=https://www.fresco.me
+
+open folder /home/labuser and create a file named: fresco-nginx-pod.yaml and type:
+
 
 2.  Nginx Pod
 apiVersion: v1
@@ -48,6 +50,8 @@ spec:
               key: SERVER_URL
 
 3. kubectl create secret generic test --from-literal=admin=YWRtaW4K  --from-literal=pass=cGFzcwo= 
+kubectl create secret generic fresco-secret --from-literal user=admin --from-literal pass=pass
+now goto the nginx pod yaml file and add
 
 4. add secret to pod
 apiVersion: v1
@@ -72,6 +76,10 @@ spec:
      - name: fresco-secret
        secret: 
           secretName: fresco-secret   
+          
+          
+kubectl delete pods --all
+kubectl apply -f fresco-nginx-pod.yaml
 
 5. Persistent Volume
 
@@ -104,8 +112,39 @@ spec:
   resources:
     requests:
       storage: 50Mi    
-      
-7.  RBAC
+   
+7. Edit pod file
+
+apiVersion: v1
+ kind: Pod
+metadata:
+ name: fresco-nginx-pod
+spec:
+  containers:
+    - name: fresco-nginx-container
+      image: nginx
+      env:
+       - name: SERVER_URL_ENV
+         valueFrom:
+           configMapKeyRef:
+             name: fresco-config
+             key: SERVER_URL
+    volumeMounts:
+      - name: fresco-secret
+        mountPath: "/etc/test"
+      - name: fresco-pvc
+        mountPath: "/usr/share/nginx/html"
+  volumes:
+   - name: fresco-secret
+     secret:
+       secretName: fresco-secret
+   - name: fresco-pvc
+       persistentVolumeClaim:
+         claimName: fresco-pvc
+
+
+
+8.  RBAC
 minikube start --extra-config=apiserver.Authorization.Mode=RBAC
 openssl genrsa -out emp.key 2048
 openssl req -new -key emp.key -out emp.csr -subj "/CN=emp/O=dev"
