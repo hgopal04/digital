@@ -1,0 +1,73 @@
+1.Try it out - Fibonacci Sequence
+Welcome to Gradle program to generate Fibonacii series
+
+File Name - build.gradle
+
+def fib(n)
+{
+  int first_num = 1
+  int second_num = 1
+  if(n==1)
+  println first_num
+  else if(n==2)
+  println first_num + " "+second_num
+  else if (n > 2)
+  {
+    print first_num + " "+second_num
+    int i = 3
+    while(i<=n)
+    {
+      int z = first_num + second_num
+      print " "+z
+      first_num = second_num
+      second_num = z
+      i = i+1
+    }
+  }
+}
+task fibo(){
+  doLast
+  {
+    int n = Integer.parseInt(num)
+    println "First"+n+"fibonacci numbers:"
+    fib n
+  }
+}
+
+----------
+
+
+2.Try it out - Play with Dependencies
+Welcome to Gradle program to define dependency tasks
+
+File Name - build.gradle
+
+project(':projectA'){
+  task hello
+}
+task hello
+println tasks.getByPath('taskA').path
+println tasks.getByPath('independent task').path
+println tasks.getByPath('taskB').path
+println tasks.getByPath('dependent on taskA').path
+
+-------
+
+
+3.Exercise to Build Java Project
+Welcome to Gradle program to calculate area of circle and square
+
+File Name - build.gradle
+
+task circle {
+  doLast {
+    double area = (22/7)*Double.parseDouble(radius)*Double.parseDouble(radius)
+    println 'area of circle is = '+area
+  }
+}
+task square {
+  doLast {
+    double area = Double.parseDouble(side)*Double.parseDouble(side)
+    println 'area of circle is = '+area
+  }
+}
